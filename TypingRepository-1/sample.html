@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>天邪鬼タイピング</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      text-align: center;
+      padding: 40px;
+      overflow: hidden;
+    }
+    #game-container {
+      margin: 0 auto;
+      max-width: 700px;
+    }
+    #target {
+      font-size: 36px;
+      margin: 20px 0;
+      transition: all 0.2s ease-in-out;
+      display: inline-block;
+    }
+    .pop {
+      animation: popEffect 0.3s ease;
+    }
+    @keyframes popEffect {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.5) rotate(5deg); }
+      100% { transform: scale(1); }
+    }
+    #input {
+      font-size: 24px;
+      padding: 10px;
+      width: 80%;
+    }
+    #score, #timer {
+      font-size: 20px;
+      margin: 10px;
+    }
+    #start-btn {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #ff4081;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #start-btn:hover {
+      background-color: #f50057;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <h1>🌀 天邪鬼タイピング 🌀</h1>
+    <div id="target">スタートを押してね！</div>
+    <input type="text" id="input" disabled placeholder="ここに入力..." />
+    <div>
+      <span id="score">Score: 0</span>
+      <span id="timer">Time: 120</span>
+    </div>
+    <button id="start-btn">スタート！</button>
+  </div>
+  <audio id="correct-se" src="https://soundeffect-lab.info/sound/button/mp3/decision28.mp3"></audio>
+
+  <script>
+    const target = document.getElementById("target");
+    const input = document.getElementById("input");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+    const startBtn = document.getElementById("start-btn");
+    const correctSE = document.getElementById("correct-se");
+
+    let score = 0;
+    let time = 120;
+    let interval;
+    let current = "";
+    const kanjiChaos = "縺繧縲繝妛彁硲暃坩堝竈箪笥隋臧艱艷靡黌鼾齊龕龜龠堯槇".split("");
+
+    const hiraganaSamples = [
+      "こんにちは", "おはよう", "さようなら", "ありがとう", "すみません",
+      "たのしいね", "ねこがすき", "あしたもがんばろう", "ゆうやけきれい", "まいにちれんしゅう"
+    ];
+
+    function getRandomWord() {
+      return hiraganaSamples[Math.floor(Math.random() * hiraganaSamples.length)];
+    }
+
+    function startGame() {
+      score = 0;
+      time = 120;
+      scoreDisplay.textContent = "Score: 0";
+      timerDisplay.textContent = "Time: 120";
+      input.value = "";
+      input.disabled = false;
+      input.focus();
+      current = getRandomWord();
+      displayWord(current);
+      interval = setInterval(() => {
+        time--;
+        timerDisplay.textContent = `Time: ${time}`;
+        if (time <= 0) endGame();
+      }, 1000);
+    }
+
+    function endGame() {
+      clearInterval(interval);
+      input.disabled = true;
+      target.textContent = `終了！あなたのスコアは ${score} 点でした！`;
+    }
+
+    function displayWord(word) {
+      target.classList.remove("pop");
+      void target.offsetWidth;
+      target.classList.add("pop");
+      target.textContent = word;
+
+      // 文字が数秒後に変化
+      setTimeout(() => {
+        let chars = word.split("");
+        let mutated = chars.map((ch) => (Math.random() < 0.3 ? kanjiChaos[Math.floor(Math.random() * kanjiChaos.length)] : ch));
+        target.textContent = mutated.join("");
+      }, 2000);
+
+      // さらに3秒後に消える
+      setTimeout(() => {
+        target.textContent = "";
+      }, 5000);
+    }
+
+    input.addEventListener("input", () => {
+      const targetText = target.textContent;
+      if (input.value === current) {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        input.value = "";
+        correctSE.currentTime = 0;
+        correctSE.play();
+        current = getRandomWord();
+        displayWord(current);
+      }
+    });
+
+    startBtn.addEventListener("click", () => {
+      startGame();
+    });
+  </script>
+</body>
+</html>

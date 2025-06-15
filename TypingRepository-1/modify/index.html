@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>天邪鬼タイピング</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: white;
+        text-align: center;
+        padding: 40px;
+        overflow: hidden;
+      }
+      #game-container {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      #target {
+        font-size: 36px;
+        margin: 20px 0;
+        transition: all 0.2s ease-in-out;
+        display: inline-block;
+      }
+      .pop {
+        animation: popEffect 0.3s ease;
+      }
+      @keyframes popEffect {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.5) rotate(5deg);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      #input {
+        font-size: 24px;
+        padding: 10px;
+        width: 80%;
+      }
+      #score,
+      #timer {
+        font-size: 20px;
+        margin: 10px;
+      }
+      #start-btn {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #ff4081;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #start-btn:hover {
+        background-color: #f50057;
+      }
+    </style>
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <h1>天邪鬼タイピング</h1>
+
+    <div id="startScreen">
+      <p><button type="button" id="easy">お手軽</button></p>
+      <p><button type="button" id="hard">難しい</button></p>
+    </div>
+
+    <div id="gameScreen" style="display: none">
+      <div id="word">スタートを押してね！</div>
+      <!--<input type="text" id="input" placeholder="ここに入力" disabled />-->
+      <div id="input" tabindex="0"></div>
+      <button id="start-btn" type="button">スタート</button>
+      <div id="info">
+        <p>スコア: <span id="score">0</span></p>
+        <p>残り時間: <span id="timer">120</span> 秒</p>
+        <p>WPM: <span id="wpm">0</span></p>
+        <p><button type="button" id="back">戻る</button></p>
+        <audio
+          id="correct-se"
+          src="https://soundeffect-lab.info/sound/button/mp3/decision28.mp3"
+          preload="auto"
+        ></audio>
+      </div>
+    </div>
+  </body>
+</html>

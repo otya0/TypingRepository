@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>天邪鬼タイピング</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #1f1f2f, #3a3a5a);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        #target {
+            font-size: 2rem;
+            margin: 20px;
+            padding: 10px 20px;
+            background: #333;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1.2rem;
+            width: 300px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        #info {
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #5561ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .fade {
+            opacity: 0;
+        }
+    </style>
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <h1>天邪鬼タイピング</h1>
+    <div id="gameScreen" style="display:none" ;>
+
+        <div id="target">スタートで開始</div>
+        <input type="text" id="input" placeholder="ここに入力" disabled />
+        <button id="startBtn">スタート</button>
+        <div id="info">
+            <p>スコア: <span id="score">0</span></p>
+            <p>残り時間: <span id="time">30</span> 秒</p>
+            <p>WPM: <span id="wpm">0</span></p>
+            <p><button type="button" ud="back">戻る</button></p>
+        </div>
+
+    </div>
+    <div id="startScreen">
+        <p><button type="button" id="easy">お手軽</button></p>
+        <p><button type="button" id="hard">難しい </button></p>
+    </div>
+
+</body>
+
+</html>

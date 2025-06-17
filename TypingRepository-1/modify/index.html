@@ -61,6 +61,7 @@
       }
     </style>
     <script src="script.js" defer></script>
+    <script type="module" src="script.js"></script>
   </head>
 
   <body>
@@ -73,8 +74,7 @@
 
     <div id="gameScreen" style="display: none">
       <div id="word">スタートを押してね！</div>
-      <!--<input type="text" id="input" placeholder="ここに入力" disabled />-->
-      <div id="input" tabindex="0"></div>
+      <input type="text" id="input" placeholder="ここに入力" disabled />
       <button id="start-btn" type="button">スタート</button>
       <div id="info">
         <p>スコア: <span id="score">0</span></p>

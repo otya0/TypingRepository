@@ -17,8 +17,8 @@
         margin: 0 auto;
         max-width: 700px;
       }
-      #target {
-        font-size: 36px;
+      #word {
+        font-size: 100px;
         margin: 20px 0;
         transition: all 0.2s ease-in-out;
         display: inline-block;
@@ -42,7 +42,6 @@
         padding: 10px;
         width: 80%;
       }
-      #score,
       #timer {
         font-size: 20px;
         margin: 10px;
@@ -58,6 +57,80 @@
       }
       #start-btn:hover {
         background-color: #f50057;
+      }
+      #easy {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #ff4081;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #hard {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #ff4081;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #easy:hover {
+        background-color: #f50057;
+      }
+      #hard:hover {
+        background-color: #f50057;
+      }
+      #back {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #ff4081;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #back:hover {
+        background-color: #f50057;
+      }
+      #target-bear {
+        width: 400px;
+        position: absolute;
+        left: 50%;
+        top: 100px;
+        transform: translateX(-50%);
+        transition: transform 0.2s;
+        z-index: 0;
+      }
+
+      .hit {
+        animation: hitEffect 0.3s;
+      }
+
+      @keyframes hitEffect {
+        0% {
+          transform: translateX(-50%) translateY(0);
+        }
+        25% {
+          transform: translateX(-50%) translateY(-10px) rotate(-5deg);
+        }
+        50% {
+          transform: translateX(-50%) translateY(5px) rotate(5deg);
+        }
+        100% {
+          transform: translateX(-50%) translateY(0) rotate(0);
+        }
+      }
+
+      #damage-log {
+        margin-top: 20px;
+        color: red;
+        font-size: 50px;
+        text-align: center;
+        font-weight: bold;
+        position:absolute;
+        z-index:1;
       }
     </style>
     <script src="script.js" defer></script>
@@ -78,15 +151,23 @@
       <button id="start-btn" type="button">スタート</button>
       <div id="info">
         <p>スコア: <span id="score">0</span></p>
-        <p>残り時間: <span id="timer">120</span> 秒</p>
+        <p>残り時間: <span id="timer">0</span> 秒</p>
         <p>WPM: <span id="wpm">0</span></p>
         <p><button type="button" id="back">戻る</button></p>
-        <audio
-          id="correct-se"
-          src="https://soundeffect-lab.info/sound/button/mp3/decision28.mp3"
-          preload="auto"
-        ></audio>
+        <audio id="correct-se" src="クイズ正解2.mp3" preload="auto"></audio>
+        <audio id="incorrect-se" src="クイズ不正解2.mp3" preload="auto"></audio>
       </div>
+      <!-- 攻撃対象のくま -->
+      <img
+        id="target-bear"
+        src="IMG_1579.jpg"
+        alt="くま"
+        style="display: none"
+      />
+
+      <!-- 攻撃ダメージ表示 -->
+      <div id="damage-log" style="display: none"></div>
+      <audio id="attack-se" src = "小パンチ.mp3" preload ="auto"></audio>
     </div>
   </body>
 </html>

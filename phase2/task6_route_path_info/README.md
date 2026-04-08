@@ -1,14 +1,54 @@
-# Task 6: Route Simulation (Path Information)
+# Task 6: 経路シミュレーション（経路情報）
 
-## Overview
-Among shortest paths, find the one where the customer encounters the most other products. Output the list of all visible items along that route.
+## 概要
+Task 5 と同じ最短経路問題に加えて、最短経路上で顧客がより多くの商品を「目にする」経路を選ぶ。
 
-## Input
-- Same format as Task 5.
+## やるべきこと
+- 各顧客の最短経路距離を計算する（Task 5 と同じ）
+- 最短経路が複数ある場合、**最も多くの商品が見える経路**を選ぶ
+- 見える商品数が同じ場合、商品名リストを辞書順で比較し小さい方を選ぶ
+- 最短経路距離と、その経路上で見える全商品のリストを出力する
 
-## Output
-- Shortest path distance + list of all items visible along the best route (most items seen).
-- Ties broken by dictionary order of concatenated item names.
+## 「商品が見える」とは
+顧客が商品のアクセスセル（棚の向き方向の隣接セル）を通過すると、その商品が「見える」。
+取りに行く商品だけでなく、経路上にある全てのアクセスセルの商品が対象。
 
-## Constraints
-- 4 <= W,H <= 100, 1 <= N <= 20, 1 <= Q <= 20, 1 <= M <= N
+## 入力形式
+Task 5 と同じ。
+
+## 出力形式
+各顧客について1行:
+```
+最短距離 商品名1 商品名2 ... 商品名K
+```
+商品名はソート済みで出力する。
+
+## 制約
+- 4 ≤ W, H ≤ 100
+- 1 ≤ N ≤ 20, 1 ≤ Q ≤ 20, 1 ≤ M ≤ N
+
+## 必要なスキル
+- アルゴリズム応用（ビットマスクDP拡張、経路復元）
+
+## 実装のポイント
+
+### アルゴリズム
+1. **Phase 1**: Task 5 と同じビットマスクDPで最短距離を求める
+2. **Phase 2**: 最短距離を保ちながら、可視商品を最大化するDPを行う
+   - セグメントごとの可視性マスク: 2点間の最短経路上で見える商品集合を事前計算
+   - パレート最適化: 各DP状態で、可視マスクの候補集合を管理
+3. **タイブレーク**: 同じ数の商品が見える場合、辞書順で最小のリストを選択
+
+### 重要な注意点
+- セグメント単位で最適な選択が、全体で最適とは限らない
+- 全ての有効なセグメントマスクの組み合わせを試す必要がある
+
+## 入出力例
+
+### 例1
+```
+13 a b c d i j k l
+17 a b c d e f g h i
+21 a b c d f g h i j n
+27 a b c d e f g h i j k l m n
+```

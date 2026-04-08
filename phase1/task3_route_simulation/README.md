@@ -1,14 +1,58 @@
-# Task 3: Route Simulation
+# Task 3: 経路シミュレーション
 
-## Overview
-Simulate routes of customers in a 2D grid store. Calculate the shortest path distance for customers to enter, pick up one product, and exit.
+## 概要
+2次元グリッドで表現された店舗内で、顧客が入口から商品を1つ取って出口まで移動する最短経路距離を求める。
 
-## Input
-- W x H grid, N products with locations and shelf directions
-- Q customers, each needing M=1 product
+## やるべきこと
+- 店舗の2次元グリッドを構築する
+- 商品の位置と棚の向きから、商品を取れるセル（アクセスセル）を計算する
+- 各顧客について、入口→商品のアクセスセル→出口の最短経路距離をBFSで求める
 
-## Output
-- Shortest path distance for each customer.
+## グリッドのルール
+- 原点 (0,0) は左下
+- 入口: (1, 0)、出口: (W-2, 0)
+- 底辺の行 y=0 は入口・出口以外は通行不可
+- 四隅 (0,0), (W-1,0), (0,H-1), (W-1,H-1) は通行不可
+- 棚のセル（商品が置かれたセル）は通行不可
+- 棚の向き: E=(+1,0), W=(-1,0), N=(0,+1), S=(0,-1)
+  - 例: 商品が (0,1) に E 方向で置かれている場合、(1,1) から取れる
 
-## Constraints
-- 4 <= W,H <= 100, 1 <= N <= 20, 1 <= Q <= 20, M = 1
+```
+例: 8x8 グリッド
+  e   f       g
+X               X
+              h
+  d   j m
+          n
+  c   k
+  b   l
+  a           i
+X EN X X X X EX X
+```
+
+## 入力形式
+```
+W H N                      ← 幅、高さ、商品数
+x1 y1 s1 d1               ← 商品の座標、名前、棚の向き
+...
+Q                          ← 顧客数
+M1 p1,1 ... p1,M1         ← 購入商品数（M=1）と商品名
+...
+```
+
+## 出力形式
+各顧客の最短経路距離を1行ずつ出力する。
+
+## 制約
+- 4 ≤ W, H ≤ 100
+- 1 ≤ N ≤ 20（商品数）
+- 1 ≤ Q ≤ 20（顧客数）
+- M = 1（この課題では商品は1つだけ）
+
+## 必要なスキル
+- アルゴリズムとデータ構造（BFS、グラフ探索）
+
+## 実装のポイント
+- BFS（幅優先探索）で最短経路距離を計算
+- blocked セットで通行不可セルを管理
+- 入口→アクセスセルの距離 + アクセスセル→出口の距離 = 合計距離

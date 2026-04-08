@@ -1,17 +1,41 @@
-# Task 4: Relevant Pairs of Products (Large Data)
+# Task 4: 関連商品ペアの分析（大規模データ対応）
 
-## Overview
-Improve Task 2 to handle larger scale input data. Must respond within 5 seconds for worst case.
+## 概要
+Task 2 と同じ問題を、大規模な入力データに対して5秒以内に処理できるよう改善する。
 
-## Input
-- Same format as Task 2, larger constraints.
+## やるべきこと
+- Task 2 のアルゴリズムを大規模データに対応させる
+- 最悪ケースでも5秒以内に応答できるようにする
+- テストデータ生成プログラムを作成する
 
-## Output
-- Same as Task 2.
+## 入力形式・出力形式
+Task 2 と同じ。
 
-## Constraints
-- 1 <= N <= 10000, 1 <= M <= 20, 1 <= length of p <= 10, 1 <= Q <= 10
+## 制約（Task 2 より大きい）
+- 1 ≤ N ≤ **10000**（顧客数: 100倍に増加）
+- 1 ≤ M ≤ **20**（購入商品数: 2倍に増加）
+- 1 ≤ 商品名の長さ ≤ 10
+- 1 ≤ Q ≤ 10
 
-## Notes
-- Need efficient data structures (hash maps, etc.) to avoid O(n^2) string comparisons.
-- Create data generator for validation.
+## 計算量の見積もり
+- 最大ペア数: N × C(M,2) = 10000 × 190 ≈ 1.9 × 10^6
+- 文字列比較コスト: 長さ10の文字列比較 ≈ 20回の比較
+- 線形探索だと O(7.6 × 10^8) → **ハッシュマップで O(1) ルックアップに改善が必要**
+
+## 必要なスキル
+- アルゴリズムとデータ構造（ハッシュマップ、計算量の見積もり）
+
+## 実装のポイント
+- `defaultdict(int)` を使ってペアの出現回数を O(1) で更新
+- `sys.stdin.buffer.read()` で高速な入力処理
+- `sys.stdout.write()` で高速な出力処理
+- ソートは全ペア集計後に1回だけ行う
+
+## データジェネレータ
+`testdata/generator.py` でテストデータを生成できる:
+```bash
+python3 testdata/generator.py [N] [M] [Q]
+# デフォルト: N=10000, M=20, Q=5
+```
+- ランダムな商品名プール（小文字、1〜10文字）を生成
+- 各顧客に対してM個のユニークな商品をサンプリング（重複なし）

@@ -1,15 +1,72 @@
-# Task 1: Product Information
+# Task 1: 商品情報の管理
 
-## Overview
-For all products in the purchase history, calculate the number of purchases and manage the information.
+## 概要
+購買履歴に含まれる全商品について、購入回数を集計し管理する。
 
-## Input
-- N: number of customers
-- Purchase history for each customer (product names)
-- Q queries, each with range [a, b]
+## やるべきこと
+- 全顧客の購買履歴を読み込み、各商品の購入回数をカウントする
+- 購入回数の降順でソートする（同数の場合は辞書順で小さい方を先に）
+- クエリ [a, b] に対して、a番目からb番目までの商品情報を出力する
 
-## Output
-- For each query, output products sorted by purchase count (descending), then dictionary order.
+## 入力形式
+```
+N                          ← 顧客数
+M1 p1,1 p1,2 ... p1,M1    ← 1人目の顧客の購入商品数と商品名
+M2 p2,1 p2,2 ... p2,M2
+...
+MN pN,1 pN,2 ... pN,MN
+Q                          ← クエリ数
+a1 b1                      ← 1つ目のクエリ（a番目〜b番目を出力）
+a2 b2
+...
+aQ bQ
+```
 
-## Constraints
-- 1 <= N <= 100, 1 <= M <= 10, 1 <= length of p <= 10, 1 <= Q <= 10
+## 出力形式
+各クエリに対して、購入回数と商品名を1行ずつ出力する。
+```
+購入回数 商品名
+```
+
+## 制約
+- 1 ≤ N ≤ 100（顧客数）
+- 1 ≤ M ≤ 10（1人あたりの購入商品数）
+- 1 ≤ 商品名の長さ ≤ 10（小文字アルファベット）
+- 1 ≤ Q ≤ 10（クエリ数）
+- 1 ≤ a ≤ b ≤ 商品の種類数
+- 各顧客の購買履歴に同じ商品は含まれない
+
+## 入出力例
+
+### 例1
+入力:
+```
+6
+3 tea butter bread
+2 butter bread
+3 onion carrot potato
+2 rice onion
+3 bread tea butter
+5 water onion carrot potato rice
+2
+1 3
+4 8
+```
+出力:
+```
+3 bread
+3 butter
+3 onion
+2 carrot
+2 potato
+2 rice
+2 tea
+1 water
+```
+
+## 必要なスキル
+- プログラミング基礎（入出力処理、ソート）
+
+## 実装のポイント
+- `Counter` や `dict` を使って商品ごとの購入回数を集計
+- ソートのキーに `(-購入回数, 商品名)` を指定すれば一度のソートで済む

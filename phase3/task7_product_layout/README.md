@@ -1,13 +1,72 @@
-# Task 7: Product Layout
+# Task 7: 商品レイアウトの最適化
 
-## Overview
-Design and implement a function to propose optimal product layout in a physical store.
+## 概要
+店舗内の商品配置を最適化するシステムを設計・実装する。自由な発想で取り組む研究課題。
 
-## Key Considerations
-- Define store shape, shelf locations/directions, product info, purchase history
-- Evaluation criteria: shortest customer distance vs. maximizing product visibility
-- Free to design input format, algorithm, and evaluation metrics
+## やるべきこと
+- 店舗の形状（2次元グリッド）と棚の位置を入力として受け取る
+- 購買履歴を分析し、商品間の関連性を把握する
+- 最適な商品配置を提案するアルゴリズムを設計・実装する
+- 配置の評価基準を定義し、最適化を行う
 
-## Notes
-- May reuse functions and data formats from previous tasks.
-- Research-oriented task: creativity and unique approaches are valued.
+## 考慮すべき点
+- **顧客の視点**: 最短距離で全商品を取れる配置が望ましい
+- **店舗オーナーの視点**: 顧客がより多くの商品を目にする配置が望ましい
+- これら2つの評価基準のバランスをどう取るかが重要
+
+## 入力形式
+```
+W H S                      ← グリッドの幅、高さ、棚の数
+x1 y1 d1                  ← 棚1の座標と向き
+x2 y2 d2
+...
+xS yS dS
+P                          ← 配置する商品数（P ≤ S）
+s1                         ← 商品名1
+s2
+...
+sP
+N                          ← 購買履歴数
+M1 p1,1 p1,2 ... p1,M1   ← 顧客1の購入商品
+...
+MN pN,1 pN,2 ... pN,MN
+```
+
+## 出力形式
+```
+x1 y1 商品名1 方向1        ← 各商品の配置場所
+x2 y2 商品名2 方向2
+...
+# Initial score: 初期スコア
+# Optimized score: 最適化後スコア
+# Improvement: 改善率
+```
+
+## 必要なスキル
+- 研究課題（アルゴリズム設計、ヒューリスティック最適化）
+
+## 実装アルゴリズム
+
+### 1. 購買履歴分析
+- 各商品の購入頻度を集計
+- 共同購入ペアの頻度を集計
+
+### 2. 初期配置（貪欲法）
+- 人気商品を入口/出口に近い棚に配置
+- 頻繁に共同購入される商品を近くに配置
+
+### 3. 最適化（焼きなまし法 / Simulated Annealing）
+- **操作**: 2つの商品のスワップ or 商品を空き棚に移動
+- **評価関数**: 全顧客の平均最短経路距離（低いほど良い）
+- **温度スケジュール**: 指数的冷却（t_start=50 → t_end=0.01）
+- 改悪解も確率的に受け入れることで局所最適解からの脱出を図る
+
+### 4. 評価
+- Task 5 のビットマスクDPを使って各顧客の最短経路を計算
+- 全顧客の平均経路コストをスコアとする
+
+## 独自性を出すポイント
+- 評価関数に「見える商品数」（Task 6）を組み込む
+- 異なる冷却スケジュールや近傍操作の比較
+- 遺伝的アルゴリズムなど他の最適化手法との比較
+- 商品カテゴリの概念を導入（同カテゴリは近くに配置するなど）

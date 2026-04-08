@@ -1,16 +1,55 @@
-# Task 5: Route Simulation (Generalized)
+# Task 5: 経路シミュレーション（一般化）
 
-## Overview
-Extend route simulation to handle multiple products per customer. Calculate shortest path to collect all products.
+## 概要
+Task 3 の経路シミュレーションを拡張し、各顧客が複数の商品を取る場合の最短経路距離を求める。
 
-## Input
-- Same format as Task 3, but M can be > 1.
+## やるべきこと
+- Task 3 と同じ店舗グリッドを使用
+- 各顧客が M 個（1以上）の商品を全て取って出口に向かう最短経路距離を計算
+- 商品を取る順番の最適化が必要（巡回セールスマン問題に類似）
 
-## Output
-- Shortest path distance for each customer to collect all products and exit.
+## 入力形式・出力形式
+Task 3 と同じ形式。ただし M ≥ 1。
 
-## Constraints
-- 4 <= W,H <= 100, 1 <= N <= 20, 1 <= Q <= 20, 1 <= M <= N
+## 制約
+- 4 ≤ W, H ≤ 100
+- 1 ≤ N ≤ 20（商品数）
+- 1 ≤ Q ≤ 20（顧客数）
+- 1 ≤ M ≤ N（**複数商品を取る**）
 
-## Notes
-- With M=20 products, brute-force permutations (20!) is infeasible. Need TSP-like optimization (e.g., bitmask DP).
+## 計算量の問題
+- M=20 の場合、全順列を試すと 20! ≈ 2.4 × 10^18 → **ビットマスクDP が必要**
+
+## 必要なスキル
+- アルゴリズム応用（ビットマスクDP、巡回セールスマン問題）
+
+## 実装のポイント
+
+### アルゴリズム: ビットマスクDP（Held-Karp法）
+1. **BFS前処理**: 入口、出口、全アクセスセル間の最短距離を事前計算
+2. **DP定義**: `dp[mask][i]` = 入口から出発し、集合 `mask` の商品を取り、最後にi番目の商品のアクセスセルにいる時の最短距離
+3. **遷移**: `dp[mask | (1<<j)][j] = min(dp[mask][i] + dist[i][j])`
+4. **答え**: `min(dp[全mask][i] + dist[i][出口])` (全 i について)
+
+### 計算量
+- 状態数: 2^M × M（M=20 で約 2000万）
+- 各状態で M 回の遷移 → O(2^M × M^2)
+
+## 入出力例
+入力:
+```
+8 8 14
+（... 14個の商品情報 ...）
+4
+4 a b c d
+3 a e g
+4 b j n g
+14 a b c d e f g h i j k l m n
+```
+出力:
+```
+13
+17
+21
+27
+```

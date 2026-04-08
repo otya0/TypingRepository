@@ -1,0 +1,26 @@
+8 8 10
+2 2 E
+2 4 E
+2 6 E
+4 2 W
+4 4 W
+4 6 W
+5 2 E
+5 4 E
+5 6 E
+7 4 W
+8
+milk
+bread
+eggs
+butter
+cheese
+juice
+rice
+apple
+5
+3 milk bread eggs
+2 milk cheese
+4 bread butter juice rice
+2 eggs apple
+3 milk bread juice

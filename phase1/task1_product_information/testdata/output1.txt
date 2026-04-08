@@ -1,0 +1,8 @@
+3 bread
+3 butter
+3 onion
+2 carrot
+2 potato
+2 rice
+2 tea
+1 water

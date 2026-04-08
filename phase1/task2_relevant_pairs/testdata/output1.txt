@@ -1,0 +1,13 @@
+3 bread butter
+2 bread tea
+2 butter tea
+2 carrot onion
+2 carrot potato
+2 onion potato
+2 onion rice
+1 carrot rice
+1 carrot water
+1 onion water
+1 potato rice
+1 potato water
+1 rice water
